@@ -113,10 +113,6 @@ btnGSignin.setOnClickListener(new View.OnClickListener() {
     protected void onStart() {
         super.onStart();
 
-
-
-
-
         //FirebaseUser currentUser = mAuth.getCurrentUser();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -135,7 +131,7 @@ btnGSignin.setOnClickListener(new View.OnClickListener() {
             startActivity(intent);
             finish();
         }else {
-            Log.i("GG", "NUll");
+            Log.i("GG", "Email Null");
         }
 
     }
