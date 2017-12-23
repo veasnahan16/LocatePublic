@@ -26,6 +26,7 @@ public class HomeTwoActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     public static final String DEFAULTSTR = "N/A";
     private SharedPreferences sharedPreferences ;
+    private static final int MENU_ADD = 20;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,9 +75,22 @@ public class HomeTwoActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
+        //getMenuInflater().inflate(R.menu.home_two, menu);
+        sharedPreferences = getSharedPreferences("Mydata", Context.MODE_PRIVATE);
+        String getStrEmail = sharedPreferences.getString("email", DEFAULTSTR);getMenuInflater().inflate(R.menu.home_two, menu);
+        if  (getStrEmail.matches("pomchanveasna@gmail.com")){
+            menu.add(108, MENU_ADD, 103, "Local Adm" );
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home_two, menu);
+        //getMenuInflater().inflate(R.menu.home_two, menu);
         return true;
     }
 
@@ -97,6 +111,10 @@ public class HomeTwoActivity extends AppCompatActivity
             startActivity(intent);
             sharedPreferences.edit().remove("Mydata").commit();
             finish();
+        }
+
+        if (id == 20){
+            Log.i("GG", "Local Add");
         }
         return super.onOptionsItemSelected(item);
     }

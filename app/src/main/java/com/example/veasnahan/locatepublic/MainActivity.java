@@ -175,16 +175,11 @@ btnGSignin.setOnClickListener(new View.OnClickListener() {
                             Log.i("DD", "Succs");
                             p.hide();
                             Intent intent = new Intent(MainActivity.this, HomeTwoActivity.class);
-                            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-
                             sharedPreferences = getSharedPreferences("Mydata", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("email", strEmail);
                             editor.commit();
-
-
                             startActivity(intent);
                         } else {
                             Log.i("DD", task.getException().toString());
@@ -274,8 +269,16 @@ btnGSignin.setOnClickListener(new View.OnClickListener() {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
+
                             FirebaseUser user = mAuth.getCurrentUser();
                             Log.i("GG" , user.getEmail().toString());
+                            Intent intent = new Intent(MainActivity.this, HomeTwoActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            sharedPreferences = getSharedPreferences("Mydata", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("email", user.getEmail().toString());
+                            editor.commit();
+                            startActivity(intent);
 
                             //updateUI(user);
                         } else {
