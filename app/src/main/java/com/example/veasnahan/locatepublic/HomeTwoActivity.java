@@ -109,7 +109,7 @@ public class HomeTwoActivity extends AppCompatActivity
             mAuth.signOut();
             Intent intent = new Intent(HomeTwoActivity.this, MainActivity.class);
             startActivity(intent);
-            sharedPreferences.edit().remove("Mydata").commit();   
+            sharedPreferences.edit().remove("Mydata").commit();
             finish();
         }
 
