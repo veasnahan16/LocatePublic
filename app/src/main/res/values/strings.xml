@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Locate Public</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_about">About</string>
+    <string name="action_logout">Log Out</string>
+    <string name="google_id">Google ID</string>
+    <string name="title_activity_signup">Sign Up</string>
+    <string name="mail_req">Email is Required</string>
+    <string name="dialog_title">Password Not Match</string>
+    <string name="dialog_error">Sign Up Fail</string>
+    <string name="sign_in_err">Sign In Fail</string>
+    <string name="dialog_message">Please! Confirm your password</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_home_two">Local Public</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+</resources>
