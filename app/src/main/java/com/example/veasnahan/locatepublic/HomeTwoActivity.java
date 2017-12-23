@@ -85,6 +85,7 @@ public class HomeTwoActivity extends AppCompatActivity
         }
 
         return super.onPrepareOptionsMenu(menu);
+
     }
 
     @Override
