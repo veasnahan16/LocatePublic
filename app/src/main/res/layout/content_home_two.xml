@@ -1,11 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.veasnahan.locatepublic.HomeTwoActivity"
-    tools:showIn="@layout/app_bar_home_two">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_marginTop="50dp">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+
+        <RelativeLayout
+            android:id="@+id/layoutincard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp">
+
+            <ImageView
+                android:id="@+id/person_photo"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_marginRight="16dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/name1" />
+
+            <TextView
+                android:id="@+id/person_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/person_photo"
+                android:text="HEADER01"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/person_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/person_name"
+                android:layout_toRightOf="@+id/person_photo"
+                android:text="Sub Header 01" />
+
+            <TextView
+                android:id="@+id/brandSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/person_name"
+                android:layout_below="@+id/person_age"
+                android:layout_marginRight="5dp"
+                android:onClick="onClickBrand"
+                android:padding="8dp"
+                android:text="By Brand"
+                android:textAlignment="textEnd" />
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+    <!--<android.support.v7.widget.CardView-->
+
+        <!--android:id="@+id/xx"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:padding="16dp">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/z"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_marginRight="16dp"-->
+                <!--android:src="@mipmap/ic_gas_round" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/a"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_toRightOf="@+id/z"-->
+                <!--android:text="asfasfsdfs"-->
+                <!--android:textSize="30sp" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/q"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/a"-->
+                <!--android:layout_toRightOf="@+id/z"-->
+                <!--android:text="asdfasdagg" />-->
+
+        <!--</RelativeLayout>-->
+
+    <!--</android.support.v7.widget.CardView>-->
+
+
+</LinearLayout>
+
+
+<!--<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:padding="20dp"-->
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+    <!--tools:context="com.example.veasnahan.locatepublic.HomeTwoActivity"-->
+    <!--tools:showIn="@layout/app_bar_home_two">-->
+
+
+    <!--<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--xmlns:card_view="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/card_main_1_2"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginTop="90dp"-->
+        <!--android:background="?attr/selectableItemBackground"-->
+        <!--android:foreground="?attr/selectableItemBackground"-->
+        <!--card_view:cardCornerRadius="2dp"-->
+        <!--card_view:cardElevation="2dp">-->
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+
+
+            <!--<ImageView-->
+                <!--android:id="@+id/img_main_card_2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--android:background="?android:attr/textSelectHandle"-->
+                <!--android:scaleType="centerCrop" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_card_main_2_title"-->
+                <!--style="@style/TextAppearance.AppCompat.Large"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignBottom="@id/img_main_card_2"-->
+                <!--android:layout_margin="16dp"-->
+                <!--android:text="main_card_title"-->
+                <!--android:textColor="@color/white" />-->
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_marginTop="50dp"-->
+                <!--android:padding="8dp"-->
+                <!--android:paddingTop="90dp">-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/img_main_card2_share"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:layout_marginEnd="8dp"-->
+                    <!--android:background="?attr/selectableItemBackgroundBorderless"-->
+                    <!--android:clickable="true"-->
+                    <!--android:padding="8dp"-->
+                    <!--android:src="@drawable/ic_email_black_24dp" />-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/img_main_card2_bookmark"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginEnd="8dp"-->
+                    <!--android:layout_toStartOf="@id/img_main_card2_share"-->
+                    <!--android:background="?attr/selectableItemBackgroundBorderless"-->
+                    <!--android:clickable="true"-->
+                    <!--android:padding="8dp"-->
+                    <!--android:src="@drawable/ic_email_black_24dp" />-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/img_main_card2_favorite"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginEnd="8dp"-->
+                    <!--android:layout_toStartOf="@id/img_main_card2_bookmark"-->
+                    <!--android:background="?attr/selectableItemBackgroundBorderless"-->
+                    <!--android:clickable="true"-->
+                    <!--android:padding="8dp"-->
+                    <!--android:src="@drawable/ic_email_black_24dp" />-->
+            <!--</RelativeLayout>-->
+
+
+        <!--</RelativeLayout>-->
+    <!--</android.support.v7.widget.CardView>-->
+
+<!--</android.support.constraint.ConstraintLayout>-->

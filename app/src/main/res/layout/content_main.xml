@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:paddingBottom="50dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="50dp"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.veasnahan.locatepublic.MainActivity"
@@ -12,40 +16,125 @@
         android:id="@+id/linearVert"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:backgroundTintMode="src_over"
         android:orientation="vertical"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="164dp">
 
-        >
-
-        <EditText
-            android:id="@+id/email"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:ems="10"
-            android:hint="Input E-mail"
-            android:inputType="textEmailAddress"
-            android:text="" />
+            android:layout_marginTop="10dp"
+            android:gravity="center|start"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/password"
+            <ImageView
+                android:id="@+id/ep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/ic_email_black_24dp"
+                android:tint="@color/colorAccent" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/changehint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:drawablePadding="10dp"
+                    android:ems="10"
+                    android:hint="Input E-mail"
+                    android:inputType="textEmailAddress"
+                    android:text="pomchanveasna@gmail.com" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/laypwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:ems="10"
-            android:hint="Input Password"
-            android:inputType="textPassword"
-            android:text="" />
+            android:layout_marginTop="10dp"
+            android:gravity="center|start"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnSignIn"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/ic_verified_user_black_24dp"
+                android:tint="@color/colorAccent" />
+
+            <android.support.design.widget.TextInputLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:drawablePadding="10dp"
+                    android:ems="10"
+                    android:hint="Input Password"
+                    android:inputType="textPassword"
+                    android:text="" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            android:gravity="center|start"
+            android:orientation="horizontal">
+
+            <Switch
+                android:id="@+id/tglPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SIGN IN USING PHONE NUMBER" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:text="Sign In"
-            android:textAlignment="center" />
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnSignIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="8dp"
+                android:elevation="0dp"
+                android:text="@string/sign_in"
+                android:textAlignment="center"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/btnSignInNode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="8dp"
+                android:elevation="0dp"
+                android:text="@string/sign_in"
+                android:textAlignment="center" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,10 +163,38 @@
             android:id="@+id/btnGAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Google Account"
+            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp"/>
+            android:text="Google Account" />
+
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="@+id/linearVert">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't Have Account Yet. " />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create One " />
+    </LinearLayout>
+
+    <!--<Button-->
+    <!--android:id="@+id/b1"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="8dp"-->
+    <!--android:text="B1"-->
+    <!--app:layout_constraintBottom_toBottomOf="@+id/linearVert"-->
+    <!--tools:layout_editor_absoluteX="28dp" />-->
+
 
 </android.support.constraint.ConstraintLayout>
