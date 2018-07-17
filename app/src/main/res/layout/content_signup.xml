@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="50dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="50dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.veasnahan.locatepublic.SignupActivity"
     tools:showIn="@layout/activity_signup">
@@ -11,46 +17,127 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:ems="10"
-            android:hint="Input E-mail"
-            android:inputType="textEmailAddress"
-            android:text="" />
+        android:backgroundTintMode="multiply"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:theme="@style/AppTheme">
 
-        <EditText
-            android:id="@+id/pswd1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:text="" />
+            android:layout_marginTop="10dp"
+            android:gravity="center|start"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/pswd2"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/ic_email_black_24dp"
+                android:tint="@color/colorAccent" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:drawablePadding="10dp"
+                    android:ems="10"
+                    android:hint="Input E-mail"
+                    android:inputType="textEmailAddress"
+                    android:text="" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:ems="10"
-            android:hint="Confirm Password"
-            android:inputType="textPassword"
-            android:text="" />
+            android:layout_marginTop="10dp"
+            android:gravity="center|start"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/ic_verified_user_black_24dp"
+                android:tint="@color/colorAccent" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/pswd1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:drawablePadding="10dp"
+                    android:ems="10"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:text="" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center|start"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/ic_verified_user_black_24dp"
+                android:tint="@color/colorAccent" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/pswd2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:drawablePadding="10dp"
+                    android:ems="10"
+                    android:hint="Confirm Password"
+                    android:inputType="textPassword"
+                    android:text="" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/btnSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign Up" />
+            android:text="Sign Up"
+            android:visibility="gone" />
+
+
+        <Button
+            android:id="@+id/btnSignUpNodeJS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign Up With NodeJS" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
