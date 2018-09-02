@@ -40,7 +40,7 @@ dependencies {
     api 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.android.support:gridlayout-v7:26.1.0'
 
-
+    compile 'com.jakewharton:butterknife:8.4.0'
 
     // third party dependencies -------------------------------------------------------------------
     api 'com.balysv:material-ripple:1.0.2'                  // ripple effect
@@ -50,6 +50,8 @@ dependencies {
     //api 'com.github.pchmn:MaterialChipsInput:1.0.5'         // material chip
     compile 'com.hootsuite.android:nachos:1.1.1'                // material chips
     compile 'com.google.android:flexbox:0.3.2'                  // google flexible box
+    implementation "com.google.android.gms:play-services-location:11.8.0"
+
 }
 
 apply plugin: 'com.google.gms.google-services'

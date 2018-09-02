@@ -1,6 +1,6 @@
 <resources>
-    <!-- <string name="ip_map">http://DESKTOP-ELTFP3E:3000/</string>-->
-    <string name="ip_map">https://locatepublic-api.herokuapp.com/</string>
+    <!--   <string name="ip_map">http://DESKTOP-ELTFP3E:3000/</string>-->
+     <string name="ip_map">https://locatepublic-api.herokuapp.com/</string>
     <string name="app_name">Locate Public</string>
     <string name="action_settings">Settings</string>
     <string name="action_about">About</string>
@@ -43,5 +43,8 @@
 
     <string name="about_text">The best android implementation of material UI components. This app implemented based on Google Design Guidelines.
     </string>
+    <string name="strGeoPar">http://maps.google.com/maps?daddr=</string>
+    <string name="latlonnull">Lat Lon is NULL</string>
+    <string name="msg1">Location Data is not available. If you think has this coordination, please send me via my email.</string>
 
 </resources>

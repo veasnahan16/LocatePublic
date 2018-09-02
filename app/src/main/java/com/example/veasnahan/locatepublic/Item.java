@@ -3,6 +3,7 @@ package com.example.veasnahan.locatepublic;
 public class Item {
 
     private String type;
+    private String subtype;
     private String brand;
     private String eng;
     private String khm;
@@ -14,6 +15,14 @@ public class Item {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getSubtype() {
+        return subtype;
+    }
+
+    public void setSubtype(String subtype) {
+        this.subtype = subtype;
     }
 
     public String getBrand() {

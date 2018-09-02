@@ -1,8 +1,10 @@
 package com.example.veasnahan.locatepublic;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -58,9 +60,11 @@ public class GridTwoLine extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AdapterGridTwoLine mAdapter;
 
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        Log.i ( "ITEM_PRDD", "onCreate" );
         String newString;
         if (savedInstanceState == null) {
             Bundle extras = getIntent ().getExtras ();
@@ -72,7 +76,7 @@ public class GridTwoLine extends AppCompatActivity {
         } else {
             newString = (String) savedInstanceState.getSerializable ( "STRING_I_NEED" );
         }
-        Log.i ( "ITEM_PRDD", newString );
+//        Log.i ( "ITEM_PRDD", newString );
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.activity_grid_two_line );
         parent_view = findViewById ( android.R.id.content );
@@ -87,9 +91,30 @@ public class GridTwoLine extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause ();
+        finish ();
+        Log.i ( "ITEM_PRDD", "onPause" );
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart ();
+        Log.i ( "ITEM_PRDD", "onStart" );
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+//        initToolbar ();
+//        initComponent ( "MART" );
+        Log.i ( "ITEM_PRDD", "onResume" );
+    }
+
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById ( R.id.toolbar );
-        toolbar.setNavigationIcon ( R.drawable.ic_menu );
+        toolbar.setNavigationIcon ( R.drawable.ic_arrow_back_black_24dp );
         setSupportActionBar ( toolbar );
         getSupportActionBar ().setTitle ( "Two Line" );
         getSupportActionBar ().setDisplayHomeAsUpEnabled ( true );
@@ -133,7 +158,7 @@ public class GridTwoLine extends AppCompatActivity {
                             obj.brief = o.getString ( "khm" );
                             items.add ( obj );
                         }
-                        Log.i ( "ITEM_PRD", products_array.toString () );
+                        //Log.i ( "ITEM_PRD", products_array.toString () );
 
                         mAdapter = new AdapterGridTwoLine ( GridTwoLine.this, items );
                         recyclerView.setAdapter ( mAdapter );
@@ -211,7 +236,7 @@ public class GridTwoLine extends AppCompatActivity {
 
                             JSONObject o = products_array.getJSONObject ( i );
                             obj.image = o.getString ( "url" );
-                            obj.name = o.getString ( "eng" );
+                            obj.name = o.getString ( "brand" );
                             obj.type = o.getString ( "type" );
 
                             obj.brief = o.getString ( "khm" );
@@ -265,6 +290,7 @@ public class GridTwoLine extends AppCompatActivity {
                 if (response.has ( "brands" )) {
                     str.clear ();
                     try {
+                        Log.i ( "CCA", response.toString () );
                         JSONArray products_array = response.getJSONArray ( "brands" );
                         for (int i = 0; i < products_array.length (); i++) {
                             JSONObject o = products_array.getJSONObject ( i );
@@ -273,9 +299,10 @@ public class GridTwoLine extends AppCompatActivity {
 
                         showSingleChoiceDialog (brand);
 
+
                         //RINGTONE = str.toArray(new String[str.size()]);
                         Log.i ( "CCA", str.toString () );
-                        Log.i ( "CCB", RINGTONE.getClass ().getName () );
+
 
                     } catch (JSONException e) {
                         e.printStackTrace ();
@@ -296,6 +323,8 @@ public class GridTwoLine extends AppCompatActivity {
     private void showSingleChoiceDialog(final String brand) {
 
         myArray = str.toArray ( new String[str.size ()] );
+        int size = myArray.length;
+
 //        List<String> stringList = new ArrayList<> ();  // here is list
 //        for (int i = 0; i < 5; i++) {
 //            stringList.add ( "RadioButton " + (i + 1) );
@@ -316,16 +345,31 @@ public class GridTwoLine extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.i ( "showSingleChoiceDialog", brand );
+                Log.i ( "showSingleChoiceDialog", single_choice_selected );
 
                 Intent intent = new Intent ( GridTwoLine.this, ListMultiSelection.class );
+                sharedPreferences = getSharedPreferences("Mysubdata", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("brand", brand);
+                editor.putString("subtype", single_choice_selected);
+                editor.commit();
                 startActivity ( intent );
-
+                finish();
                 //Snackbar.make ( parent_view, "selected : " + single_choice_selected, Snackbar.LENGTH_SHORT ).show ();
             }
         } );
         builder.setNegativeButton ( R.string.CANCEL, null );
-        builder.show ();
-
+        if (size == 1 ){
+            Intent intent = new Intent ( GridTwoLine.this, ListMultiSelection.class );
+            sharedPreferences = getSharedPreferences("Mysubdata", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("brand", brand);
+            editor.putString("subtype", "");
+            editor.commit();
+            startActivity ( intent );
+        }else {
+            builder.show ();
+        }
     }
 
     private void showRadioButtonDialog() {
@@ -353,7 +397,7 @@ public class GridTwoLine extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater ().inflate ( R.menu.menu_search_setting, menu );
+        //getMenuInflater ().inflate ( R.menu.menu_search_setting, menu );
         return true;
     }
 

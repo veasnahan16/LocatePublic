@@ -68,9 +68,10 @@ public class HomeTwoActivity extends AppCompatActivity implements NavigationView
         } );
 
         DrawerLayout drawer = findViewById ( R.id.drawer_layout );
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle ( this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close );
-        drawer.addDrawerListener ( toggle );
-        toggle.syncState ();
+        /*COMMAND FOR NAVIGATION MENU*/
+        //ActionBarDrawerToggle toggle = new ActionBarDrawerToggle ( this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close );
+        //drawer.addDrawerListener ( toggle );
+        //toggle.syncState ();
 
 
         NavigationView navigationView = findViewById ( R.id.nav_view );
@@ -250,7 +251,9 @@ public class HomeTwoActivity extends AppCompatActivity implements NavigationView
         int id = item.getItemId ();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Intent intent = new Intent(HomeTwoActivity.this, MyLocationUsingLocationAPI.class);
+            startActivity(intent);
+            Log.i("nav_camera","nav_camera");
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {

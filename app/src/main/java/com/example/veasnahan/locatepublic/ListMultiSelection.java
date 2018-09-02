@@ -1,7 +1,23 @@
 package com.example.veasnahan.locatepublic;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,9 +48,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-//import com.material.components.R;
+//import com.google.android.gms.location.LocationListener;
 
 public class ListMultiSelection extends AppCompatActivity {
 
@@ -46,25 +64,95 @@ public class ListMultiSelection extends AppCompatActivity {
     private ActionMode actionMode;
     private Toolbar toolbar;
 
+    private LocationManager locationManager;
+    private LocationListener listener;
+    private String latlong;
+    Integer intOKay = 0;
+
+    public static final String DEFAULTSTR = "N/A";
+    private SharedPreferences sharedPreferences;
+
+    String getBrand;
+    String getType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.activity_list_multi_selection );
         parent_view = findViewById ( R.id.lyt_parent );
-ShareFunctions.showLog ();
+        ShareFunctions.showLog ();
+
         initToolbar ();
-        initComponent ();
+        //initComponent ();
         if (Build.VERSION.SDK_INT >= 21) {
             Window window = this.getWindow ();
             window.clearFlags ( WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS );
             window.addFlags ( WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS );
             window.setStatusBarColor ( this.getResources ().getColor ( R.color.colorPrimaryDark ) );
         }
+
+
+        sharedPreferences = getSharedPreferences ( "Mysubdata", Context.MODE_PRIVATE );
+        getBrand = sharedPreferences.getString ( "brand", DEFAULTSTR );
+        getType = sharedPreferences.getString ( "subtype", DEFAULTSTR );
+
+
+        locationManager = (LocationManager) getSystemService ( LOCATION_SERVICE );
+
+        listener = new LocationListener () {
+            @Override
+            public void onLocationChanged(Location location) {
+                if (location == null) {
+                    Log.i ( "LOC", "no location" );
+                    //textView.append ( "\n " + "no location" );
+                } else {
+                    //textView.append ( "\n " + location.getLongitude () + " " + location.getLatitude () );
+                    latlong = location.getLatitude () + "," + location.getLongitude ();
+                    //request
+
+                    initComponent ( latlong, getType, getBrand );
+                    Log.i ( "LOCC", "request to server" );
+                    Log.i ( "LOCC", getBrand );
+                    Log.i ( "LOCC", getType );
+                    Log.i ( "LOCC", latlong );
+                    Toast.makeText ( getApplicationContext (), latlong, Toast.LENGTH_LONG ).show ();
+                    Toast.makeText ( getApplicationContext (), getBrand, Toast.LENGTH_LONG ).show ();
+                    Toast.makeText ( getApplicationContext (), getType, Toast.LENGTH_LONG ).show ();
+                    locationManager.removeUpdates ( listener );
+                }
+
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+                //AVAILABLE 2; OUT_OF_SERVICE 0; TEMPORARILY_UNAVAILABLE 1;
+                if (i == 2) {
+                    intOKay = 2;
+                }
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+                Intent i = new Intent ( Settings.ACTION_LOCATION_SOURCE_SETTINGS );
+                startActivity ( i );
+            }
+        };
+
+        configure_button ();
+
+
     }
+
 
     private void initToolbar() {
         toolbar = (Toolbar) findViewById ( R.id.toolbar );
-        toolbar.setNavigationIcon ( R.drawable.ic_menu );
+        toolbar.setNavigationIcon ( R.drawable.ic_arrow_back_black_24dp );
         setSupportActionBar ( toolbar );
         getSupportActionBar ().setTitle ( "Inbox" );
         getSupportActionBar ().setDisplayHomeAsUpEnabled ( true );
@@ -104,7 +192,16 @@ ShareFunctions.showLog ();
 
     }
 
-    private void initComponent() {
+    private void initComponent(String latlong, String getType, String getBrand) {
+
+        Map<String, String> params = new HashMap ();
+        params.put ( "subtype", getType );
+        params.put ( "brand", getBrand );
+        params.put ( "coord", latlong );
+
+        JSONObject parameters = new JSONObject ( params );
+
+
         Log.i ( "aa", "initComponent" );
         recyclerView = (RecyclerView) findViewById ( R.id.recyclerView );
         recyclerView.setLayoutManager ( new LinearLayoutManager ( this ) );
@@ -112,13 +209,14 @@ ShareFunctions.showLog ();
         recyclerView.setHasFixedSize ( true );
 
         //List<Inbox> items = DataGenerator.getInboxData ( this );
-        final String URL_DATA = getString ( R.string.ip_map ) + "items/" + "bank";
+        final String URL_DATA = getString ( R.string.ip_map ) + "items/coord";
         RequestQueue queue = Volley.newRequestQueue ( this );
-        JsonObjectRequest jsonobj = new JsonObjectRequest ( Request.Method.GET, URL_DATA, null, new Response.Listener<JSONObject> () {
+        JsonObjectRequest jsonobj = new JsonObjectRequest ( Request.Method.POST, URL_DATA, parameters, new Response.Listener<JSONObject> () {
 
             @Override
             public void onResponse(JSONObject response) {
                 Log.i ( "aa", "success" );
+                Log.i ( "aa", response.toString () );
                 if (response.has ( "brands" )) {
                     List<Inbox> items = new ArrayList<> ();
 
@@ -128,8 +226,9 @@ ShareFunctions.showLog ();
                             Inbox objj = new Inbox ();
                             JSONObject o = products_array.getJSONObject ( i );
                             objj.from = o.getString ( "eng" );
-                            objj.email = o.getString ( "khm" );
-                            objj.message = o.getString ( "geo" );
+                            objj.email = o.getString ( "desc" );
+                            objj.geo = o.getString ( "geo" );
+                            objj.message = o.getString ( "distance" );
                             items.add ( objj );
                             Log.i ( "aaa", o.getString ( "eng" ) );
                         }
@@ -140,12 +239,23 @@ ShareFunctions.showLog ();
                             public void onItemClick(View view, Inbox obj, int pos) {
                                 Inbox inbox = mAdapter.getItem ( pos );
                                 Toast.makeText ( getApplicationContext (), "Read: " + inbox.from, Toast.LENGTH_SHORT ).show ();
+                                if (inbox.geo.equals ( "" ))
+                                    showPasswordErrorDialog ( getString( R.string.latlonnull), getString( R.string.msg1) );
+                                else {
+                                    String geo = getString ( R.string.strGeoPar ) + inbox.geo;
+                                    Intent intent = new Intent ( android.content.Intent.ACTION_VIEW, Uri.parse ( geo ) );
+                                    //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    intent.addFlags ( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
+
+                                    startActivity ( intent );
+                                    finish ();
+                                }
                             }
 
                             @Override
                             public void onItemLongClick(View view, Inbox obj, int pos) {
                                 Inbox inbox = mAdapter.getItem ( pos );
-                                Log.i("inbox",inbox.toString ());
+                                Log.i ( "inbox", inbox.toString () );
                                 //Toast.makeText ( getApplicationContext (), "Read Long: " + inbox.toString (), Toast.LENGTH_SHORT ).show ();
                             }
                         } );
@@ -158,7 +268,7 @@ ShareFunctions.showLog ();
         }, new Response.ErrorListener () {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i ( "aa", "error" );
+                Log.i ( "aa", error.toString () );
             }
         } );
         queue.add ( jsonobj );
@@ -188,6 +298,30 @@ ShareFunctions.showLog ();
 
             actionModeCallback = new ActionModeCallback ();
         }
+    }
+
+    private void showPasswordErrorDialog(String title, String text) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ListMultiSelection.this);
+        builder.setTitle(title);
+        builder.setMessage(text);
+
+        String positiveText = getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // positive button logic
+            }
+        });
+        String negativeText = getString(android.R.string.cancel);
+        builder.setNegativeButton(negativeText, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // negative button logic
+            }
+        });
+        AlertDialog dialog = builder.create();
+        // display dialog
+        dialog.show();
     }
 
     private void enableActionMode(int position) {
@@ -251,7 +385,7 @@ ShareFunctions.showLog ();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater ().inflate ( R.menu.menu_search_setting, menu );
+        // getMenuInflater ().inflate ( R.menu.menu_search_setting, menu );
         return true;
     }
 
@@ -264,4 +398,80 @@ ShareFunctions.showLog ();
         }
         return super.onOptionsItemSelected ( item );
     }
+
+
+    protected void buildAlertMessageNoGps() {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder ( this );
+        builder.setMessage ( "Please Turn ON your GPS Connection" ).setCancelable ( false ).setPositiveButton ( "Yes", new DialogInterface.OnClickListener () {
+            public void onClick(final DialogInterface dialog, final int id) {
+                startActivity ( new Intent ( Settings.ACTION_LOCATION_SOURCE_SETTINGS ) );
+            }
+        } ).setNegativeButton ( "No", new DialogInterface.OnClickListener () {
+            public void onClick(final DialogInterface dialog, final int id) {
+                dialog.cancel ();
+            }
+        } );
+        final AlertDialog alert = builder.create ();
+        alert.show ();
+    }
+
+    void configure_button() {
+        Toast.makeText ( this, "configure_button", Toast.LENGTH_LONG ).show ();
+        // first check for permissions
+        if (ActivityCompat.checkSelfPermission ( this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission ( this, Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Log.i ( "LOCC", "Build.VERSION_CODES.M>=M" );
+                requestPermissions ( new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET}, 10 );
+            } else {
+                Log.i ( "LOCC", "Build.VERSION_CODES.M<M" );
+            }
+            Log.i ( "LOCC", "return?" );
+            return;
+        }
+
+        // this code won'textView execute IF permissions are not allowed, because in the line above there is return statement.
+        locationManager.requestLocationUpdates ( "gps", 5000, 0, listener );
+        Log.i ( "LOCC", "LOCCed" );
+       /* button.setOnClickListener ( new View.OnClickListener () {
+            @Override
+            public void onClick(View view) {
+                //noinspection MissingPermission
+                //textView.append ( "\n " + "no location" );
+                locationManager.requestLocationUpdates ( "gps", 5000, 0, listener );
+            }
+        } );*/
+
+        Looper myLooper = Looper.myLooper ();
+        final Handler myHandler = new Handler ( myLooper );
+        myHandler.postDelayed ( new Runnable () {
+            public void run() {
+                if (latlong != null) {
+                    //request with latlong
+                    Log.i ( "LOCC", "request already" );
+                    Toast.makeText ( ListMultiSelection.this, "requested already", Toast.LENGTH_LONG ).show ();
+                } else {
+                    //request without latlong
+                    locationManager.removeUpdates ( listener );
+                    Log.i ( "LOCC", "request without latlong" );
+                    initComponent ( "NULL", getType, getBrand );
+                    Toast.makeText ( ListMultiSelection.this, "10s no latlong", Toast.LENGTH_LONG ).show ();
+                }
+                //locationManager.removeUpdates(listener);
+                Log.i ( "LOCC", "10000s" );
+            }
+        }, 5000 );
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 10:
+                configure_button ();
+                break;
+            default:
+                break;
+        }
+    }
 }
+

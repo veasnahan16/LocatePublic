@@ -11,6 +11,7 @@ public class Inbox {
     public String email;
     public String message;
     public String date;
+    public String geo;
     public int color = -1;
 
 }
