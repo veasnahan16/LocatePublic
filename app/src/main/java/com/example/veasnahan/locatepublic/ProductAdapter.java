@@ -54,8 +54,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.relativeLayout.setOnClickListener ( new View.OnClickListener () {
                 @Override
                 public void onClick(View view) {
+                    Intent intent = new Intent(mCtx,GridTwoLine.class);
+                    intent.putExtra("itemname", product.getName ());
+                    mCtx.startActivity(intent);
                     //Log.i("TAG", product.getHeader());
-                    Toast.makeText ( view.getContext (), product.getHeader (), Toast.LENGTH_SHORT ).show ();
+                    //Toast.makeText ( view.getContext (), product.getHeader (), Toast.LENGTH_SHORT ).show ();
                 }
             } );
         //}

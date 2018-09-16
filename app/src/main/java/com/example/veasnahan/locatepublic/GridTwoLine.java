@@ -116,7 +116,7 @@ public class GridTwoLine extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById ( R.id.toolbar );
         toolbar.setNavigationIcon ( R.drawable.ic_arrow_back_black_24dp );
         setSupportActionBar ( toolbar );
-        getSupportActionBar ().setTitle ( "Two Line" );
+        getSupportActionBar ().setTitle ( "List Name Brand" );
         getSupportActionBar ().setDisplayHomeAsUpEnabled ( true );
         Tools.setSystemBarColor ( this, R.color.grey_1000 );
     }
@@ -406,7 +406,7 @@ public class GridTwoLine extends AppCompatActivity {
         if (item.getItemId () == android.R.id.home) {
             finish ();
         } else {
-            Toast.makeText ( getApplicationContext (), item.getTitle (), Toast.LENGTH_SHORT ).show ();
+            //Toast.makeText ( getApplicationContext (), item.getTitle (), Toast.LENGTH_SHORT ).show ();
         }
         return super.onOptionsItemSelected ( item );
     }

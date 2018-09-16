@@ -1,8 +1,10 @@
 package com.example.veasnahan.locatepublic;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -11,6 +13,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +21,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +58,6 @@ public class HomeTwoActivity extends AppCompatActivity implements NavigationView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate ( savedInstanceState );
 
-
         mAuth = FirebaseAuth.getInstance ();
         setContentView ( R.layout.activity_home_two );
         Toolbar toolbar = findViewById ( R.id.toolbar );
@@ -68,17 +72,18 @@ public class HomeTwoActivity extends AppCompatActivity implements NavigationView
         } );
 
         DrawerLayout drawer = findViewById ( R.id.drawer_layout );
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         /*COMMAND FOR NAVIGATION MENU*/
         //ActionBarDrawerToggle toggle = new ActionBarDrawerToggle ( this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close );
         //drawer.addDrawerListener ( toggle );
         //toggle.syncState ();
 
 
-        NavigationView navigationView = findViewById ( R.id.nav_view );
-        View headerView = navigationView.getHeaderView ( 0 );
-        final TextView navUsername = (TextView) headerView.findViewById ( R.id.tokenmail );
-        //navUsername.setText("Your Text Here");
-        navigationView.setNavigationItemSelectedListener ( this );
+//        NavigationView navigationView = findViewById ( R.id.nav_view );
+//        View headerView = navigationView.getHeaderView ( 0 );
+//        final TextView navUsername = (TextView) headerView.findViewById ( R.id.tokenmail );
+//        //navUsername.setText("Your Text Here");
+//        navigationView.setNavigationItemSelectedListener ( this );
 
         FirebaseUser currentUser = mAuth.getCurrentUser ();
         if (currentUser != null) {
@@ -88,7 +93,7 @@ public class HomeTwoActivity extends AppCompatActivity implements NavigationView
 
         sharedPreferences = getSharedPreferences ( "Mydata", Context.MODE_PRIVATE );
         final String getStrEmail = sharedPreferences.getString ( "str_token", DEFAULTSTR );
-        Toast.makeText ( this, getStrEmail, Toast.LENGTH_LONG ).show ();
+        //Toast.makeText ( this, getStrEmail, Toast.LENGTH_LONG ).show ();
         Log.i ( "TAG", getStrEmail );
         if (!getStrEmail.equals ( "N/A" )) {
             RequestQueue q1 = Volley.newRequestQueue ( this );
@@ -103,7 +108,7 @@ public class HomeTwoActivity extends AppCompatActivity implements NavigationView
                     try {
                         String mailtok = response.getString ( "tok_user" );
                         Log.i ( "TAG", mailtok );
-                        navUsername.setText ( mailtok );
+                        //navUsername.setText ( mailtok );
                         //showPasswordErrorDialog("Success", m);
                     } catch (JSONException e) {
                         Log.i ( "TAG", "e catch" );
@@ -159,7 +164,7 @@ public class HomeTwoActivity extends AppCompatActivity implements NavigationView
                             productList.add ( new Product ( o.getString ( "name" ),o.getString ( "eng" ), o.getString ( "khm" ), o.getString ( "url" ), o.getBoolean ( "bybrand" ) ) );
 
                         }
-                        Log.i ( "TAGGG", products_array.toString () );
+                        //Log.i ( "TAGGG", products_array.toString () );
                         //creating recyclerview adapter
                         ProductAdapter adapter = new ProductAdapter ( HomeTwoActivity.this, productList );
 
@@ -188,12 +193,14 @@ public class HomeTwoActivity extends AppCompatActivity implements NavigationView
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = findViewById ( R.id.drawer_layout );
         if (drawer.isDrawerOpen ( GravityCompat.START )) {
             drawer.closeDrawer ( GravityCompat.START );
         } else {
             super.onBackPressed ();
         }
+
     }
 
     @Override
@@ -226,7 +233,9 @@ public class HomeTwoActivity extends AppCompatActivity implements NavigationView
         int id = item.getItemId ();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
+            Log.i("CC","CC");
+            showDialogAbout ();
             return true;
         }
         if (id == R.id.action_logout) {
@@ -266,14 +275,52 @@ public class HomeTwoActivity extends AppCompatActivity implements NavigationView
 
         }
 
-        DrawerLayout drawer = findViewById ( R.id.drawer_layout );
-        drawer.closeDrawer ( GravityCompat.START );
+        //DrawerLayout drawer = findViewById ( R.id.drawer_layout );
+        //drawer.closeDrawer ( GravityCompat.START );
         return true;
     }
 
 
     public void onClickBrand(View v) {
         Log.i ( "TAGG", "clicked text view" );
+    }
+
+    private void showDialogAbout() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature( Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_about);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+//        ((TextView) dialog.findViewById(R.id.tv_version)).setText("Version " + BuildConfig.VERSION_NAME);
+
+        ((AppCompatButton) dialog.findViewById(R.id.bt_getcode)).setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto","pomchanveasna@gmail.com", null));
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "App Locate Public");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "");
+                startActivity(Intent.createChooser(emailIntent, "Send email..."));
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData( Uri.parse("https://codecanyon.net/user/dream_space/portfolio"));
+//                startActivity(i);
+            }
+        });
+
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
 }

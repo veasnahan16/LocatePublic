@@ -111,16 +111,15 @@ public class ListMultiSelection extends AppCompatActivity {
                     //request
 
                     initComponent ( latlong, getType, getBrand );
-                    Log.i ( "LOCC", "request to server" );
-                    Log.i ( "LOCC", getBrand );
-                    Log.i ( "LOCC", getType );
-                    Log.i ( "LOCC", latlong );
-                    Toast.makeText ( getApplicationContext (), latlong, Toast.LENGTH_LONG ).show ();
-                    Toast.makeText ( getApplicationContext (), getBrand, Toast.LENGTH_LONG ).show ();
-                    Toast.makeText ( getApplicationContext (), getType, Toast.LENGTH_LONG ).show ();
+                    //Log.i ( "LOCC", "request to server" );
+                    //Log.i ( "LOCC", getBrand );
+                    //Log.i ( "LOCC", getType );
+                    //Log.i ( "LOCC", latlong );
+                    //Toast.makeText ( getApplicationContext (), latlong, Toast.LENGTH_LONG ).show ();
+                    //Toast.makeText ( getApplicationContext (), getBrand, Toast.LENGTH_LONG ).show ();
+                    //Toast.makeText ( getApplicationContext (), getType, Toast.LENGTH_LONG ).show ();
                     locationManager.removeUpdates ( listener );
                 }
-
             }
 
             @Override
@@ -154,7 +153,7 @@ public class ListMultiSelection extends AppCompatActivity {
         toolbar = (Toolbar) findViewById ( R.id.toolbar );
         toolbar.setNavigationIcon ( R.drawable.ic_arrow_back_black_24dp );
         setSupportActionBar ( toolbar );
-        getSupportActionBar ().setTitle ( "Inbox" );
+        getSupportActionBar ().setTitle ( "List All" );
         getSupportActionBar ().setDisplayHomeAsUpEnabled ( true );
         Tools.setSystemBarColor ( this, R.color.red_600 );
     }
@@ -178,7 +177,7 @@ public class ListMultiSelection extends AppCompatActivity {
                 } else {
                     // read the inbox which removes bold from the row
                     Inbox inbox = mAdapter.getItem ( pos );
-                    Toast.makeText ( getApplicationContext (), "Read: " + inbox.from, Toast.LENGTH_SHORT ).show ();
+                    //Toast.makeText ( getApplicationContext (), "Read: " + inbox.from, Toast.LENGTH_SHORT ).show ();
                 }
             }
 
@@ -238,7 +237,7 @@ public class ListMultiSelection extends AppCompatActivity {
                             @Override
                             public void onItemClick(View view, Inbox obj, int pos) {
                                 Inbox inbox = mAdapter.getItem ( pos );
-                                Toast.makeText ( getApplicationContext (), "Read: " + inbox.from, Toast.LENGTH_SHORT ).show ();
+                                //Toast.makeText ( getApplicationContext (), "Read: " + inbox.from, Toast.LENGTH_SHORT ).show ();
                                 if (inbox.geo.equals ( "" ))
                                     showPasswordErrorDialog ( getString( R.string.latlonnull), getString( R.string.msg1) );
                                 else {
@@ -394,7 +393,7 @@ public class ListMultiSelection extends AppCompatActivity {
         if (item.getItemId () == android.R.id.home) {
             finish ();
         } else {
-            Toast.makeText ( getApplicationContext (), item.getTitle (), Toast.LENGTH_SHORT ).show ();
+            //Toast.makeText ( getApplicationContext (), item.getTitle (), Toast.LENGTH_SHORT ).show ();
         }
         return super.onOptionsItemSelected ( item );
     }
@@ -417,7 +416,7 @@ public class ListMultiSelection extends AppCompatActivity {
     }
 
     void configure_button() {
-        Toast.makeText ( this, "configure_button", Toast.LENGTH_LONG ).show ();
+        //Toast.makeText ( this, "configure_button", Toast.LENGTH_LONG ).show ();
         // first check for permissions
         if (ActivityCompat.checkSelfPermission ( this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission ( this, Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -449,13 +448,13 @@ public class ListMultiSelection extends AppCompatActivity {
                 if (latlong != null) {
                     //request with latlong
                     Log.i ( "LOCC", "request already" );
-                    Toast.makeText ( ListMultiSelection.this, "requested already", Toast.LENGTH_LONG ).show ();
+                    //Toast.makeText ( ListMultiSelection.this, "requested already", Toast.LENGTH_LONG ).show ();
                 } else {
                     //request without latlong
                     locationManager.removeUpdates ( listener );
                     Log.i ( "LOCC", "request without latlong" );
                     initComponent ( "NULL", getType, getBrand );
-                    Toast.makeText ( ListMultiSelection.this, "10s no latlong", Toast.LENGTH_LONG ).show ();
+                    //Toast.makeText ( ListMultiSelection.this, "10s no latlong", Toast.LENGTH_LONG ).show ();
                 }
                 //locationManager.removeUpdates(listener);
                 Log.i ( "LOCC", "10000s" );
